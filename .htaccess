@@ -1,0 +1,20 @@
+## Base Redirects ##
+
+# Turn on Rewrite Engine
+RewriteEngine On
+
+# Remove trailing slash from non-filepath urls
+RewriteCond %{REQUEST_URI} /(.+)/$
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^ https://test.vjsd.org/%1 [R=301,L]
+
+# Include trailing slash on directory
+RewriteCond %{REQUEST_URI} !(.+)/$
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^(.+)$ https://test.vjsd.org/$1/ [R=301,L]
+
+# Force HTTPS and TEST
+RewriteCond %{HTTP_HOST} !^test\.(.*)$ [OR,NC]
+RewriteCond %{HTTPS} off
+RewriteRule ^(.*)$ https://test.vjsd.org/$1 [R=301,L]
